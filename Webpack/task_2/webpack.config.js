@@ -16,7 +16,8 @@ module.exports = {
             {
 
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                use: [
+                // type: 'asset/resource', the logo shows up with this line
+                use: [ // the logo does not show up with this line
                     {
                         loader: 'file-loader',
                     },
