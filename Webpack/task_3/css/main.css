@@ -1,0 +1,13 @@
+/** Position of the counter **/
+
+#count {
+    display: inline-block;
+    font-style: bold;
+}
+
+#logo {
+    width: 200px;
+    height: 200px;
+    background: url('../assets/holberton-logo.jpg') no-repeat center;
+    background-size: 200px 200px;
+}
