@@ -16,4 +16,11 @@ function getFooterCopy(isIndex) {
     }
 }
 
-export { getFullYear, getFooterCopy };
+// task 3 - Create a function 'getLatestNotification' that returns a string:
+// '<strong>Urgent requirement</strong> - complete by EOD'
+
+function getLatestNotification() {
+    return '<strong>Urgent requirement</strong> - complete by EOD';
+}
+
+export { getFullYear, getFooterCopy, getLatestNotification };
