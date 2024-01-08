@@ -1,5 +1,4 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     mode: "development",
@@ -17,7 +16,12 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: "asset/resource",
-                use: ["image-webpack-loader"],
+                use: [
+                    "file-loader",
+                    {
+                        loader: "image-webpack-loader",
+                    },
+                ],
             },
             {
                 test: /\.(js|jsx)$/,
@@ -31,11 +35,6 @@ module.exports = {
             },
         ],
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: "React Intro",
-        }),
-    ],
     devServer: {
         static: {
             directory: path.join(__dirname, '../dist'),
