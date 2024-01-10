@@ -1,0 +1,59 @@
+/* #region CourseList */
+
+#CourseList {
+    width: 90%;
+    border-collapse: collapse;
+    margin: auto;
+    border: 1px solid #00003C;
+    font-family: 'Galano Grotesque Alt', sans-serif;
+    font-weight: 400;
+}
+
+#CourseList thead th[colspan="2"] {
+    text-align: right;
+}
+
+#CourseList thead tr:nth-child(2) th {
+    border-top: 2px solid #00003C;
+    border-bottom: 2px solid #00003C;
+}
+
+#CourseList thead tr:nth-child(2) th:first-child {
+    text-align: left;
+    width: 70%;
+}
+
+#CourseList thead tr:nth-child(2) th:last-child {
+    text-align: left;
+    width: 30%;
+}
+
+#CourseList tbody tr td {
+    text-align: left;
+}
+
+#CourseList tbody tr td:last-child {
+    text-align: left;
+}
+
+/* table {
+    margin-left: 2.5rem;
+    margin-top: 2.5rem;
+    border: 1px solid #00003C;
+    text-align: left;
+    width: 90%;
+}
+
+th {
+    font-family: 'Galano Grotesque Alt', sans-serif;
+    font-weight: 400;
+    font-size: 1.3rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid #00003C;
+}
+
+td {
+    padding: 0.5rem;
+} */
+
+/* #endregion */
