@@ -22,7 +22,7 @@ describe("<Notifications />", () => {
     it("renders 'No new notification for now' when listNotifications is empty", () => {
         const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={[]} />);
         expect(wrapper.contains('Here is the list of notifications')).toBe(false);
-        expect(wrapper.containsMatchingElement(<NotificationItem value='No new notification for now' />)).toBe(true);
+        expect(wrapper.contains(<p>No new notification for now</p>)).toBe(true);
     });
 
     it('renders the right number of NotificationItem when listNotifications is passed', () => {
@@ -35,18 +35,43 @@ describe("<Notifications />", () => {
         expect(wrapper.find(NotificationItem).length).toBe(listNotifications.length);
     });
 
-    // Test that will mockup the console.log function
     it('calls the function markAsRead when clicked', () => {
-        const listNotifications = [
-            { id: 1, type: 'default', value: 'New course available' },
-            { id: 2, type: 'urgent', value: 'New resume available' },
-            { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } }
-        ];
+        const listNotifications = [{ id: 1, type: 'default', value: 'New course available' }];
+        const markAsReadMock = jest.fn();
+        const wrapper = shallow(
+            <Notifications displayDrawer={true} listNotifications={listNotifications} markAsRead={markAsReadMock} />
+        );
+
+        // Simulate click on the first NotificationItem
+        wrapper.find(NotificationItem).first().props().markAsRead();
+        expect(markAsReadMock).toHaveBeenCalledWith(1);
+    });
+
+    it('does not re-render when listNotifications prop is the same', () => {
+        const listNotifications = [{ id: 1, type: 'default', value: 'New course available' }];
         const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
-        const instance = wrapper.instance();
-        const spy = jest.spyOn(instance, 'markAsRead');
-        wrapper.find(NotificationItem).first().simulate('click');
-        expect(spy).toHaveBeenCalled();
-        spy.mockRestore();
+
+        // Spy on shouldComponentUpdate to check if it's called with the right parameters
+        const shouldUpdate = wrapper.instance().shouldComponentUpdate({ listNotifications: listNotifications });
+
+        // shouldComponentUpdate should return false
+        expect(shouldUpdate).toBe(false);
+    });
+
+    it('does re-render when listNotifications prop has more items', () => {
+        const listNotifications = [{ id: 1, type: 'default', value: 'New course available' }];
+        const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+
+        // New list with more items than the original list
+        const longerListNotifications = [
+            ...listNotifications,
+            { id: 2, type: 'urgent', value: 'New resume available' }
+        ];
+
+        // Spy on shouldComponentUpdate to check if it's called with the right parameters
+        const shouldUpdate = wrapper.instance().shouldComponentUpdate({ listNotifications: longerListNotifications });
+
+        // shouldComponentUpdate should return true
+        expect(shouldUpdate).toBe(true);
     });
 });
