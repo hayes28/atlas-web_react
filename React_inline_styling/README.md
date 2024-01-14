@@ -18,13 +18,17 @@ By the end of this project, learners will be able to:
 - Allowed editors: vi, vim, emacs, Visual Studio Code
 
 ## Installation
-git clone [repository-link]
-cd [repository-name]
+```bash
+git clone https://github.com/hayes28/atlas-web_react/tree/main/React_inline_styling
+
+cd atlas-web_react/React_inline_styling
+
 npm install
-
+```
 ## Usage
+```bash
 npm start
-
+```
 ## Resources
 - [Aphrodite](https://github.com/Khan/aphrodite)
 - [Inline styling](https://legacy.reactjs.org/docs/dom-elements.html)
