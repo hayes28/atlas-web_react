@@ -60,17 +60,22 @@ const styles = StyleSheet.create({
 });
 
 class Notifications extends React.Component {
+    // Define the markAsRead method
+    markAsRead = (id) => {
+        console.log(`Notification ${id} has been marked as read`);
+        // Additional logic for marking as read
+    };
+
     shouldComponentUpdate(nextProps) {
         return nextProps.listNotifications.length > this.props.listNotifications.length;
     }
+
     handleButtonClick = () => {
         console.log('Close button has been clicked');
     };
 
     render() {
         const { displayDrawer, listNotifications } = this.props;
-        // Debugging: Log the listNotifications
-        console.log('listNotifications:', listNotifications);
 
         return (
             <div id='notification-menu'>
@@ -92,8 +97,14 @@ class Notifications extends React.Component {
                                 <p>No new notification for now</p>
                             ) : (
                                 listNotifications.map(({ type, html, value, id }) => (
-                                    <NotificationItem key={id} type={type} html={html} value={value} markAsRead={this.markAsRead}
-                                        className={css(type === 'default' ? styles.listItemDefault : styles.listItemUrgent)} />
+                                    <NotificationItem
+                                        key={id}
+                                        type={type}
+                                        html={html}
+                                        value={value}
+                                        markAsRead={this.markAsRead}
+                                        className={css(type === 'default' ? styles.listItemDefault : styles.listItemUrgent)}
+                                    />
                                 ))
                             )}
                         </ul>

@@ -1,9 +1,9 @@
 // CourseList.js
 import React from 'react';
-import CourseListRow from './CourseListRow';
 import PropTypes from 'prop-types';
 import CourseShape from './CourseShape';
 import { StyleSheet, css } from 'aphrodite';
+import CourseListRow from './CourseListRow';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 
 const styles = StyleSheet.create({
