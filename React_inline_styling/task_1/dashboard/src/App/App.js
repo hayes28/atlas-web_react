@@ -11,38 +11,21 @@ import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
 
-  app: {
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-
-  appHeaderWrapper: {
+  appHeader: {
+    fontFamily: "'Galano Grotesque Alt', sans-serif",
     borderBottom: '5px solid #00003C',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
 
-  appMenu: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-
-  bodyStyle: {
-    height: '100%',
-    margin: '0',
-    display: 'flex',
-  },
-
-  footerStyle: {
-    textAlign: 'center',
+  appBody: {
+    fontFamily: "'Galano Grotesque Alt', sans-serif",
     padding: '1rem',
-    position: 'fixed',
-    bottom: '0',
-    width: '100%',
+    minHeight: 'calc(100vh - 190px)',
+  },
+
+  appFooter: {
+    borderTop: '5px solid #00003C',
+    textAlign: 'center',
+    fontStyle: 'italic',
   },
 });
 
@@ -81,30 +64,17 @@ class App extends React.Component {
 
     return (
       <>
-        <div className={css(styles.appHeaderWrapper)}>
-          <Header />
-          <div className={css(styles.appMenu)}>
+        <div className={`App-header ${css(styles.appHeader)}`}>
             <Notifications listNotifications={listNotifications} />
+          <Header />
           </div>
-        </div>
-        <div className={css(styles.bodyStyle)}>
-          {isLoggedIn ? (
-            <BodySectionWithMarginBottom title="Course list">
-              <CourseList listCourses={listCourses} />
-            </BodySectionWithMarginBottom>
-          ) : (
-            <BodySectionWithMarginBottom title="Log in to continue">
-              <Login />
-            </BodySectionWithMarginBottom>
-          )}
-
-          <BodySection title="News from the School">
-            <p>Your random text or content here.</p>
+        <div className={`App-body ${css(styles.appBody)}`}>
+          {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
+          <BodySection title='News from the School'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </BodySection>
         </div>
-          <footer className={css(styles.footerStyle)}>
-          <Footer />
-        </footer>
+        <Footer className={`App-footer ${css(styles.appFooter)}`} />
       </>
     );
   }

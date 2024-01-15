@@ -1,9 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Notifications.css';
+import { StyleSheet, css } from 'aphrodite';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
 import NotificationItemShape from './NotificationItemShape';
+
+const styles = StyleSheet.create({
+    menuItem: {
+        position: 'relative',
+        border: 'thin dashed red',
+        padding: '6px',
+        display: 'block',
+        width: '30%',
+        marginLeft: 'auto',
+        marginRight: '10px',
+        marginTop: '25px',
+        minWidth: '300px',
+        minHeight: '150px',
+        maxHeight: '300px',
+        overflow: 'auto',
+    },
+    notifications: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        marginBottom: '10px',
+        display: 'block',
+        cursor: 'pointer',
+        padding: '5px 20px',
+        zIndex: 1,
+    },
+    paragraph: {
+        fontSize: '20px',
+        borderBottom: '1px solid red',
+    },
+    list: {
+        listStyle: 'none',
+        paddingLeft: 0,
+    },
+    listItem: {
+        background: '#fff',
+        marginBottom: '5px',
+    },
+    listItemDefault: {
+        color: 'blue',
+    },
+    listItemUrgent: {
+        color: 'red',
+    },
+    closeButton: {
+        position: 'absolute',
+        top: '1rem',
+        right: '1rem',
+        background: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+        outline: 'none',
+    },
+});
 
 class Notifications extends React.Component {
     shouldComponentUpdate(nextProps) {
@@ -18,50 +72,30 @@ class Notifications extends React.Component {
         // Debugging: Log the listNotifications
         console.log('listNotifications:', listNotifications);
 
-        const buttonStyle = {
-            position: 'absolute',
-            top: '1rem',
-            right: '1rem',
-            background: 'transparent',
-            border: 'none',
-            cursor: 'pointer',
-            outline: 'none',
-        };
-
         return (
             <div id='notification-menu'>
-                <div className='notifications'>
+                <div className={css(styles.notifications)}>
                     Your notifications
                 </div>
                 {displayDrawer && (
-                    <div className='menuItem'>
-                        <img src={closeIcon} alt='close icon'
-                            style={{ height: '15px', position: 'absolute', top: 10, right: 10 }}
-                            aria-label='Close'
+                    <div className={css(styles.menuItem)}>
+                        <button
+                            className={css(styles.closeButton)}
+                            aria-label="Close"
                             onClick={this.handleButtonClick}
-                        ></img>
-
+                        >
+                            <img src={closeIcon} alt="Close" style={{ height: '15px' }} />
+                        </button>
                         {listNotifications.length > 0 && <p>Here is the list of notifications</p>}
                         <ul>
                             {listNotifications.length === 0 ? (
                                 <p>No new notification for now</p>
                             ) : (
-                                listNotifications.map(({ type, html, value, id, markAsRead }) => {
-                                    if (typeof id === 'undefined') {
-                                        console.warn('Notification is missing an id:', { type, html, value });
-                                        return null; // Skip rendering this item
-                                    }
-                                    return (
-                                        <NotificationItem key={id} type={type} html={html} value={value} markAsRead={markAsRead} />
-                                    );
-                                })
+                                listNotifications.map(({ type, html, value, id }) => (
+                                    <NotificationItem key={id} type={type} html={html} value={value} markAsRead={this.markAsRead}
+                                        className={css(type === 'default' ? styles.listItemDefault : styles.listItemUrgent)} />
+                                ))
                             )}
-                            <button
-                                style={buttonStyle}
-                                aria-label="Close"
-                                onClick={this.handleButtonClick}
-                            >
-                            </button>
                         </ul>
                     </div>
                 )}
@@ -69,7 +103,6 @@ class Notifications extends React.Component {
         );
     }
 }
-
 
 Notifications.propTypes = {
     displayDrawer: PropTypes.bool,

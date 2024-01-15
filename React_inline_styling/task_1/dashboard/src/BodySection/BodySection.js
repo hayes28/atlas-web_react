@@ -1,7 +1,6 @@
 // Create a BodySection component that contains a <h2> element containing a title passed as a prop under the h2 and children of BodySection.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './BodySection.css';
 
 class BodySection extends Component {
     render() {

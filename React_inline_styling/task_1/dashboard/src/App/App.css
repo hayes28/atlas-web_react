@@ -17,7 +17,7 @@ min-height: 100vh;
   display: none; /* Hide by default, show only when isLoggedIn is false */
 }
 
-.App-header-wrapper {
+.App-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
