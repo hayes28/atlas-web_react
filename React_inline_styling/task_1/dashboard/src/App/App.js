@@ -6,28 +6,39 @@ import Footer from '../Footer/Footer';
 import Notifications from '../Notifications/Notifications';
 import CourseList from '../CourseList/CourseList';
 import BodySection from '../BodySection/BodySection';
-import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
 
-  appHeader: {
+  header: {
     fontFamily: "'Galano Grotesque Alt', sans-serif",
     borderBottom: '5px solid #00003C',
   },
 
-  appBody: {
+  body: {
     fontFamily: "'Galano Grotesque Alt', sans-serif",
     padding: '1rem',
     minHeight: 'calc(100vh - 190px)',
   },
 
-  appFooter: {
+  footer: {
     borderTop: '5px solid #00003C',
     textAlign: 'center',
     fontStyle: 'italic',
   },
 });
+
+const listCourses = [
+  { id: 1, name: 'ES6', credit: 60 },
+  { id: 2, name: 'Webpack', credit: 20 },
+  { id: 3, name: 'React', credit: 40 },
+];
+
+const listNotifications = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
+];
 
 class App extends React.Component {
 
@@ -50,31 +61,19 @@ class App extends React.Component {
   render() {
     const { isLoggedIn } = this.props;
 
-    const listCourses = [
-      { id: 1, name: 'ES6', credit: 60 },
-      { id: 2, name: 'Webpack', credit: 20 },
-      { id: 3, name: 'React', credit: 40 },
-    ];
-
-    const listNotifications = [
-      { id: 1, type: 'default', value: 'New course available' },
-      { id: 2, type: 'urgent', value: 'New resume available' },
-      { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
-    ];
-
     return (
       <>
-        <div className={`App-header ${css(styles.appHeader)}`}>
-            <Notifications listNotifications={listNotifications} />
+        <div className={`App-header ${css(styles.header)}`}>
+          <Notifications key={this.props.isLoggedIn} listNotifications={listNotifications} displayDrawer={isLoggedIn} />
           <Header />
           </div>
-        <div className={`App-body ${css(styles.appBody)}`}>
+        <div className={`App-body ${css(styles.body)}`}>
           {isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
           <BodySection title='News from the School'>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </BodySection>
         </div>
-        <Footer className={`App-footer ${css(styles.appFooter)}`} />
+        <Footer className={`App-footer ${css(styles.footer)}`} />
       </>
     );
   }

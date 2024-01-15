@@ -1,10 +1,20 @@
-// CourseList.test.js
 import React from 'react';
 import { shallow } from 'enzyme';
 import CourseList from './CourseList';
 import CourseListRow from './CourseListRow';
+import { StyleSheetTestUtils } from 'aphrodite';
 
 describe('<CourseList />', () => {
+    // Suppress Aphrodite style injection before each test
+    beforeEach(() => {
+        StyleSheetTestUtils.suppressStyleInjection();
+    });
+
+    // Clear the suppression and resume normal style injection after each test
+    afterEach(() => {
+        StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+    });
+
     it('renders without crashing', () => {
         const wrapper = shallow(<CourseList />);
         expect(wrapper.exists()).toBe(true);
@@ -27,4 +37,4 @@ describe('<CourseList />', () => {
         const wrapper = shallow(<CourseList listCourses={listCourses} />);
         expect(wrapper.find(CourseListRow).length).toBe(listCourses.length + 2);
     });
-})
+});
