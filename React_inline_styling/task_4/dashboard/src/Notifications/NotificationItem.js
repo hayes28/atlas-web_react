@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
             borderBottom: '3px solid black',
             fontSize: '20px',
             padding: '10px 8px',
+            width: '100%',
             listStyleType: 'none',
         },
     },

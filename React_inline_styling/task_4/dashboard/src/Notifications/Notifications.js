@@ -10,28 +10,28 @@ const styles = StyleSheet.create({
         position: 'relative',
         border: 'thin dashed red',
         padding: '10px',
-        width: '50%',
+        width: '30%',
         textAlign: 'left',
         float: 'right',
         right: 0,
         top: 0,
-        maxWidth: '300px',
         '@media screen and (max-width: 900px)': {
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
+            right: 0,
+            bottom: 0,
+            width: '100vw',
+            height: '100vh',
             margin: 0,
-            padding: '0px',
             fontSize: '20px',
             backgroundColor: 'white',
-            zIndex: 10,
+            zIndex: 2,
             border: 'none',
         },
     },
     notifications: {
-        position: 'fixed',
+        position: 'absolute',
         top: 0,
         right: 0,
         marginBottom: '10px',
@@ -43,10 +43,11 @@ const styles = StyleSheet.create({
             position: 'absolute',
             top: 0,
             right: 0,
+            width: '100%',
             marginBottom: '10px',
             display: 'block',
             cursor: 'pointer',
-            padding: '5px 20px',
+            padding: 0,
             zIndex: 1,
             fontSize: '20px',
         },
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
         position: 'relative',
         textAlign: 'end',
         '@media screen and (max-width: 900px)': {
-            display: 'none',
+            position: 'relative',
+            width: '100%',
         },
     },
     paragraph: {
@@ -85,6 +87,7 @@ const styles = StyleSheet.create({
         border: 'none',
         cursor: 'pointer',
         outline: 'none',
+        zIndex: 3,
     },
     bounceNote: {
         ':hover': {
@@ -126,7 +129,7 @@ class Notifications extends React.Component {
     };
 
     render() {
-        const { displayDrawer, listNotifications} = this.props;
+        const { displayDrawer, listNotifications } = this.props;
 
         // Only hide the notifications text when the drawer is displayed
         const showNotificationsText = !displayDrawer;
@@ -152,17 +155,17 @@ class Notifications extends React.Component {
                             <ul className={css(styles.list)}>
                                 {listNotifications.length === 0 ? (
                                     <p>No new notification for now</p>
-                            ) : (
-                            listNotifications.map(({type, html, value, id}) => (
-                            <NotificationItem
-                                key={id}
-                                type={type}
-                                html={html}
-                                value={value}
-                                markAsRead={this.markAsRead}
-                            />
-                            ))
-                            )}
+                                ) : (
+                                    listNotifications.map(({ type, html, value, id }) => (
+                                        <NotificationItem
+                                            key={id}
+                                            type={type}
+                                            html={html}
+                                            value={value}
+                                            markAsRead={this.markAsRead}
+                                        />
+                                    ))
+                                )}
                             </ul>
                         </div>
                     </>
