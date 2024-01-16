@@ -9,7 +9,13 @@ const styles = StyleSheet.create({
     menuItem: {
         position: 'relative',
         border: 'thin dashed red',
-        padding: '1%',
+        padding: '10px',
+        width: '50%',
+        textAlign: 'left',
+        float: 'right',
+        right: 0,
+        top: 0,
+        maxWidth: '300px',
         '@media screen and (max-width: 900px)': {
             position: 'fixed',
             top: 0,
@@ -46,6 +52,7 @@ const styles = StyleSheet.create({
         },
     },
     notificationMenu: {
+        position: 'relative',
         textAlign: 'end',
         '@media screen and (max-width: 900px)': {
             display: 'none',
@@ -88,13 +95,19 @@ const styles = StyleSheet.create({
                 },
                 {
                     '0%': { transform: 'translateY(0px)' },
-                    '50%': { transform: 'translateY(-5px)' },
-                    '100%': { transform: 'translateY(5px)' },
+                    '25%': { transform: 'translateY(-5px)' },
+                    '50%': { transform: 'translateY(5px)' },
+                    '75%': { transform: 'translateY(-5px)' },
+                    '100%': { transform: 'translateY(0px)' },
                 },
             ],
-            animationDuration: ['1s', '0.5s'],
-            animationIterationCount: [3, 3],
+            animationDuration: '1s, 0.5s',
+            animationIterationCount: 3,
+            animationTimingFunction: 'ease-in-out',
         },
+        float: 'right',
+        cursor: 'pointer',
+        zIndex: 1,
     },
 });
 
@@ -113,18 +126,20 @@ class Notifications extends React.Component {
     };
 
     render() {
-        const { displayDrawer, listNotifications } = this.props;
+        const { displayDrawer, listNotifications} = this.props;
 
-        // Define containerStyle based on displayDrawer
-        const containerStyle = displayDrawer ? css(styles.menuItem) : '';
+        // Only hide the notifications text when the drawer is displayed
+        const showNotificationsText = !displayDrawer;
 
         return (
-            <div id='notificationMenu' className={containerStyle}>
+            <div id='notificationMenu' className={css(styles.notificationMenu)}>
+                {!displayDrawer && showNotificationsText && (
+                    <div className={css(styles.notifications, styles.bounceNote)}>
+                        Your notifications
+                    </div>
+                )}
                 {displayDrawer && (
                     <>
-                        <div className={css(styles.notifications, styles.notificationMenu, styles.bounceNote)}>
-                            Your notifications
-                        </div>
                         <button
                             className={css(styles.closeButton)}
                             aria-label="Close"
@@ -132,29 +147,30 @@ class Notifications extends React.Component {
                         >
                             <img src={closeIcon} alt="Close" style={{ height: '15px' }} />
                         </button>
-                        {listNotifications.length > 0 && <p className={css(styles.paragraph)}>Here is the list of notifications</p>}
-                        <ul className={css(styles.list)}>
-                            {listNotifications.length === 0 ? (
-                                <p>No new notification for now</p>
+                        <div className={css(styles.menuItem)}>
+                            {listNotifications.length > 0 && <p className={css(styles.paragraph)}>Here is the list of notifications</p>}
+                            <ul className={css(styles.list)}>
+                                {listNotifications.length === 0 ? (
+                                    <p>No new notification for now</p>
                             ) : (
-                                listNotifications.map(({ type, html, value, id }) => (
-                                    <NotificationItem
-                                        key={id}
-                                        type={type}
-                                        html={html}
-                                        value={value}
-                                        markAsRead={this.markAsRead}
-                                    />
-                                ))
+                            listNotifications.map(({type, html, value, id}) => (
+                            <NotificationItem
+                                key={id}
+                                type={type}
+                                html={html}
+                                value={value}
+                                markAsRead={this.markAsRead}
+                            />
+                            ))
                             )}
-                        </ul>
+                            </ul>
+                        </div>
                     </>
                 )}
             </div>
         );
     }
 }
-
 
 Notifications.propTypes = {
     displayDrawer: PropTypes.bool,
