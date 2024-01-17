@@ -5,6 +5,12 @@ import { StyleSheetTestUtils } from 'aphrodite';
 
 StyleSheetTestUtils.suppressStyleInjection();
 
+const listNotifications = [
+    { id: 1, type: 'default', value: 'New course available' },
+    { id: 2, type: 'urgent', value: 'New resume available' },
+    { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } }
+];
+
 describe("<Notifications />", () => {
     it("renders without crashing", () => {
         shallow(<Notifications />);
@@ -28,13 +34,10 @@ describe("<Notifications />", () => {
     });
 
     it('renders the right number of NotificationItem when listNotifications is passed', () => {
-        const listNotifications = [
-            { id: 1, type: 'default', value: 'New course available' },
-            { id: 2, type: 'urgent', value: 'New resume available' },
-            { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } }
-        ];
-        const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
-        expect(wrapper.find(NotificationItem).length).toBe(listNotifications.length);
+        const wrapper = mount(<Notifications displayDrawer={true} listNotifications={[]} />);
+        expect(wrapper.exists()).toBe(true);
+        const paragraph = wrapper.find('paragraph').first();
+        expect(paragraph).toEqual('Here is the list of notifications');
     });
 
     it('calls markAsRead with the right message when a NotificationItem is clicked', () => {

@@ -99,6 +99,7 @@ class Notifications extends React.Component {
                                 listNotifications.map(({ type, html, value, id }) => (
                                     <NotificationItem
                                         key={id}
+                                        id={id}
                                         type={type}
                                         html={html}
                                         value={value}

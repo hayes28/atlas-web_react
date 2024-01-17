@@ -4,10 +4,17 @@ import CourseList from './CourseList';
 import CourseListRow from './CourseListRow';
 import { StyleSheetTestUtils } from 'aphrodite';
 
-describe('<CourseList />', () => {
-    // Suppress Aphrodite style injection before each test
+describe('CourseList Component', () => {
+    let wrapper;
+
+const listCourses = [
+    { id: 1, name: 'ES6', credit: 60 },
+    { id: 2, name: 'Webpack', credit: 20 },
+    { id: 3, name: 'React', credit: 40 }
+];
+
     beforeEach(() => {
-        StyleSheetTestUtils.suppressStyleInjection();
+        wrapper = shallow(<CourseList listCourses={listCourses} />);
     });
 
     // Clear the suppression and resume normal style injection after each test
@@ -29,12 +36,8 @@ describe('<CourseList />', () => {
     });
 
     it('renders the correct number of rows', () => {
-        const listCourses = [
-            { id: 1, name: 'ES6', credit: 60 },
-            { id: 2, name: 'Webpack', credit: 20 },
-            { id: 3, name: 'React', credit: 40 }
-        ];
-        const wrapper = shallow(<CourseList listCourses={listCourses} />);
-        expect(wrapper.find(CourseListRow).length).toBe(listCourses.length + 2);
+        wrapper.update();
+        const listItems = wrapper.find('tr');
+        expect(listItems.length).toBe(listCourses.length + 2);
     });
 });

@@ -8,6 +8,7 @@ module.exports = {
         path: path.resolve(__dirname, "../dist"),
     },
     module: {
+        setupFiles: ['<rootDir>/config/setupTests.js'],
         rules: [
             {
                 test: /\.css$/,
