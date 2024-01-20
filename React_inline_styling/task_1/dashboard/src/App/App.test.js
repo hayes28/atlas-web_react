@@ -1,9 +1,21 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import App from './App';
+import Notifications from '../Notifications/Notifications';
+import Header from '../Header/Header';
+import Login from '../Login/Login';
+import Footer from '../Footer/Footer';
+import CourseList from '../CourseList/CourseList';
 import { StyleSheetTestUtils } from 'aphrodite';
 
-StyleSheetTestUtils.suppressStyleInjection();
+// Prevent Aphrodite from using injected styles, which can cause issues in Jest environment
+beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+});
+
+afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
 
 describe('App', () => {
     let wrapper;
@@ -48,11 +60,12 @@ describe('App', () => {
         });
 
         it('includes CourseList', () => {
-            expect(wrapper.containsMatchingElement(<CourseList />)).toEqual(false);
+            expect(wrapper.containsMatchingElement(<CourseList />)).toEqual(true);
         });
     });
     test('logOut function is called on Ctrl+h press', () => {
         const logOutMock = jest.fn();
+        const { fireEvent, render } = require('@testing-library/react');
         window.alert = jest.fn();
 
         render(<App logOut={logOutMock} />);

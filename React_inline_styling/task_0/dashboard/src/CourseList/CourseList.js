@@ -19,6 +19,7 @@ const CourseList = ({ listCourses }) => {
                         listCourses.map((course) => (
                             <CourseListRow
                                 key={course.id}
+                                id={course.id}
                                 textFirstCell={course.name}
                                 textSecondCell={course.credit}
                                 isHeader={false}

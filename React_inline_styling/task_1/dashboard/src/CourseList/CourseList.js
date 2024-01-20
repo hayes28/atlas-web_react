@@ -64,7 +64,7 @@ const CourseList = ({ listCourses = [], isLoggedIn }) => {
                         <CourseListRow textFirstCell="No course available yet" isHeader={false} />
                     ) : (
                         listCourses.map((course) => (
-                            <CourseListRow key={course.id} textFirstCell={course.name} textSecondCell={String(course.credit)} isHeader={false} />
+                            <CourseListRow key={course.id} id={course.id} textFirstCell={course.name} textSecondCell={String(course.credit)} isHeader={false} />
                         ))
                     )}
                 </tbody>

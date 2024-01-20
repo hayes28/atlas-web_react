@@ -40,23 +40,21 @@ const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
                 )}
             </tr>
         );
-    } else {
-        return (
+    } return (
             <tr className={css(styles.rowStyle)}>
                 <td className={css(styles.tdFirstCell)}>{textFirstCell}</td>
                 <td className={css(styles.tdSecondCell)}>{textSecondCell}</td>
             </tr>
         );
-    }
-};
+    };
 
 CourseListRow.propTypes = {
     isHeader: PropTypes.bool,
     textFirstCell: PropTypes.string.isRequired,
     textSecondCell: PropTypes.oneOfType([
         PropTypes.string,
-        PropTypes.number
-    ])
+        PropTypes.number,
+    ]),
 };
 
 CourseListRow.defaultProps = {

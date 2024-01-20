@@ -52,7 +52,7 @@ class Notifications extends React.Component {
                                         return null; // Skip rendering this item
                                     }
                                     return (
-                                        <NotificationItem key={id} type={type} html={html} value={value} />
+                                        <NotificationItem key={id} id={id} type={type} html={html} value={value} markAsRead={this.props.markAsRead} />
                                     );
                                 })
                             )}

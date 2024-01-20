@@ -31,7 +31,7 @@ describe("<Notifications />", () => {
             { id: 2, type: 'urgent', value: 'New resume available' },
             { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } }
         ];
-        const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+        const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} markAsRead={markAsReadMock} />);
         expect(wrapper.find(NotificationItem).length).toBe(listNotifications.length);
     });
 
@@ -43,7 +43,7 @@ describe("<Notifications />", () => {
         );
 
         // Simulate click on the first NotificationItem
-        wrapper.find(NotificationItem).first().props().markAsRead();
+        wrapper.find(NotificationItem).first().simulate('click');
         expect(markAsReadMock).toHaveBeenCalledWith(1);
     });
 

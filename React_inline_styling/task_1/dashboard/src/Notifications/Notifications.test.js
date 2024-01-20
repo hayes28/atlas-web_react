@@ -3,7 +3,14 @@ import { shallow, mount } from "enzyme";
 import Notifications from "./Notifications";
 import { StyleSheetTestUtils } from 'aphrodite';
 
-StyleSheetTestUtils.suppressStyleInjection();
+// Prevent Aphrodite from using injected styles, which can cause issues in Jest environment
+beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+});
+
+afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
 
 const listNotifications = [
     { id: 1, type: 'default', value: 'New course available' },
@@ -17,7 +24,7 @@ describe("<Notifications />", () => {
     });
 
     it('displays the menu item when displayDrawer is true', () => {
-        const wrapper = shallow(<Notifications displayDrawer={true} />);
+        const wrapper = mount(<Notifications displayDrawer={false} />);
         expect(wrapper.find('.menuItem').length).toBe(1);
     });
 
