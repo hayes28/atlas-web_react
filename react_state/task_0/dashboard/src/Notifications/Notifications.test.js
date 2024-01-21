@@ -11,6 +11,11 @@ afterAll(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
 });
 
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
+
 describe("<Notifications />", () => {
     it("renders without crashing", () => {
         shallow(<Notifications />);
@@ -82,4 +87,20 @@ describe("<Notifications />", () => {
         // shouldComponentUpdate should return true
         expect(shouldUpdate).toBe(true);
     });
-});
+
+        it('calls handleDisplayDrawer when "Your notifications" is clicked', () => {
+            const handleDisplayDrawer = jest.fn();
+            const wrapper = shallow(<Notifications handleDisplayDrawer={handleDisplayDrawer} />);
+
+            wrapper.find('.menuItem').simulate('click'); // Update the selector to target the correct element
+            expect(handleDisplayDrawer).toHaveBeenCalled();
+        });
+
+        it('calls handleHideDrawer when close button is clicked', () => {
+            const handleHideDrawer = jest.fn();
+            const wrapper = shallow(<Notifications handleHideDrawer={handleHideDrawer} />);
+
+            wrapper.find('.close-button').simulate('click'); // Update the selector to target the correct element
+            expect(handleHideDrawer).toHaveBeenCalled();
+        });
+    });

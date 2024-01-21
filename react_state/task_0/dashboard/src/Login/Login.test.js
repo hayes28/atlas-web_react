@@ -6,6 +6,18 @@ import { StyleSheetTestUtils } from 'aphrodite';
 
 StyleSheetTestUtils.suppressStyleInjection();
 
+beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+});
+
+afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
 describe('Login', () => {
     it('renders without crashing', () => {
         shallow(<Login />);

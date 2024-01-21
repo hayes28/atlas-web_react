@@ -1,6 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import App from './App';
+import Notifications from '../Notifications/Notifications';
+import Header from '../Header/Header';
+import Login from '../Login/Login';
+import Footer from '../Footer/Footer';
+import CourseList from '../CourseList/CourseList';
+import { render, fireEvent } from '@testing-library/react';
 import { StyleSheetTestUtils } from 'aphrodite';
 
 beforeAll(() => {
@@ -9,6 +15,10 @@ beforeAll(() => {
 
 afterAll(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+beforeEach(() => {
+    jest.clearAllMocks();
 });
 
 describe('App', () => {
@@ -69,5 +79,23 @@ describe('App', () => {
         expect(window.alert).toHaveBeenCalledWith('Logging you out');
 
         window.alert.mockRestore();
+    });
+
+    it('checks that the default state of displayDrawer is false', () => {
+        const wrapper = shallow(<App />);
+        expect(wrapper.state().displayDrawer).toBe(false);
+    });
+
+    it('checks that handleDisplayDrawer sets state of displayDrawer to true', () => {
+        const wrapper = shallow(<App />);
+        wrapper.instance().handleDisplayDrawer();
+        expect(wrapper.state().displayDrawer).toBe(true);
+    });
+
+    it('checks that handleHideDrawer sets state of displayDrawer back to false', () => {
+        const wrapper = shallow(<App />);
+        wrapper.instance().handleDisplayDrawer();
+        wrapper.instance().handleHideDrawer();
+        expect(wrapper.state().displayDrawer).toBe(false);
     });
 });

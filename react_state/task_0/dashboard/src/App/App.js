@@ -41,6 +41,23 @@ const listNotifications = [
 ];
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
+    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    // define default state
+    this.state = {
+      displayDrawer: false,
+    };
+  }
+
+  // Function to handle displayDrawer state
+  handleDisplayDrawer = () => {
+    this.setState({ displayDrawer: true });
+  }
+  handleHideDrawer = () => {
+    this.setState({ displayDrawer: false });
+  }
 
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeydown);
@@ -60,11 +77,16 @@ class App extends React.Component {
 
   render() {
     const { isLoggedIn } = this.props;
+    const { displayDrawer } = this.state;
 
     return (
       <>
         <div className={`App-header ${css(styles.header)}`}>
-          <Notifications key={this.props.isLoggedIn} listNotifications={listNotifications} displayDrawer={isLoggedIn} />
+          <Notifications
+          listNotifications={listNotifications}
+          displayDrawer={this.state.displayDrawer}
+          handleDisplayDrawer={this.handleDisplayDrawer}
+          handleHideDrawer={this.handleHideDrawer} />
           <Header />
           </div>
         <div className={`App-body ${css(styles.body)}`}>

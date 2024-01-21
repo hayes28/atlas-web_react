@@ -4,6 +4,20 @@ import CourseList from './CourseList';
 import CourseListRow from './CourseListRow';
 import { StyleSheetTestUtils } from 'aphrodite';
 
+StyleSheetTestUtils.suppressStyleInjection();
+
+beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+});
+
+afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
 describe('<CourseList />', () => {
     // Suppress Aphrodite style injection before each test
     beforeEach(() => {

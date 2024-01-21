@@ -4,12 +4,18 @@ import { shallow } from 'enzyme';
 import NotificationItem from './NotificationItem.js';
 import { StyleSheetTestUtils } from 'aphrodite';
 
+StyleSheetTestUtils.suppressStyleInjection();
+
 beforeAll(() => {
     StyleSheetTestUtils.suppressStyleInjection();
 });
 
 afterAll(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+beforeEach(() => {
+    jest.clearAllMocks();
 });
 
 describe('NotificationItem', () => {

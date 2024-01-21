@@ -3,6 +3,20 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import CourseListRow from './CourseListRow';
 
+StyleSheetTestUtils.suppressStyleInjection();
+
+beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+});
+
+afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
+
 describe('<CourseListRow />', () => {
     it('renders one cell with colspan when isHeader is true and textSecondCell is null', () => {
         const wrapper = shallow(<CourseListRow isHeader textFirstCell="First" />);

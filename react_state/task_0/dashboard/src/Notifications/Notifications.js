@@ -115,6 +115,10 @@ const styles = StyleSheet.create({
 });
 
 class Notifications extends React.Component {
+    constructor(props) {
+        super(props);
+        this.markAsRead = this.markAsRead.bind(this);
+    };
     // Define the markAsRead method
     markAsRead = (id) => {
         console.log(`Notification ${id} has been marked as read`);
@@ -129,15 +133,13 @@ class Notifications extends React.Component {
     };
 
     render() {
-        const { displayDrawer, listNotifications } = this.props;
-
-        // Only hide the notifications text when the drawer is displayed
-        const showNotificationsText = !displayDrawer;
+        const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer } = this.props;
 
         return (
             <div id='notificationMenu' className={css(styles.notificationMenu)}>
-                {!displayDrawer && showNotificationsText && (
-                    <div className={css(styles.notifications, styles.bounceNote)}>
+                {!displayDrawer && (
+                    <div className={css(styles.notifications, styles.bounceNote)}
+                    onClick={ handleDisplayDrawer }>
                         Your notifications
                     </div>
                 )}
@@ -146,7 +148,7 @@ class Notifications extends React.Component {
                         <button
                             className={css(styles.closeButton)}
                             aria-label="Close"
-                            onClick={this.handleButtonClick}
+                            onClick={ handleHideDrawer }
                         >
                             <img src={closeIcon} alt="Close" style={{ height: '15px' }} />
                         </button>
@@ -178,11 +180,15 @@ class Notifications extends React.Component {
 Notifications.propTypes = {
     displayDrawer: PropTypes.bool,
     listNotifications: PropTypes.arrayOf(NotificationItemShape),
+    handleDisplayDrawer: PropTypes.func,
+    handleHideDrawer: PropTypes.func,
 };
 
 Notifications.defaultProps = {
     displayDrawer: false,
     listNotifications: [],
+    handleDisplayDrawer: () => {},
+    handleHideDrawer: () => {},
 };
 
 export default Notifications;
