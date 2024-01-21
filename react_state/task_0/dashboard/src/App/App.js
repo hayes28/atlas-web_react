@@ -81,7 +81,7 @@ class App extends React.Component {
 
     return (
       <>
-        <div className={`App-header ${css(styles.header)}`}>
+        <div className={`App-header ${css(styles.header)}`} data-testid="app-header">
           <Notifications
           listNotifications={listNotifications}
           displayDrawer={this.state.displayDrawer}

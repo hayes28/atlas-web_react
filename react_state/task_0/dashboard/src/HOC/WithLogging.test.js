@@ -2,6 +2,22 @@ import React from 'react';
 import { mount } from 'enzyme';
 import WithLogging from './WithLogging';
 import Login from '../Login/Login';
+import { StyleSheetTestUtils } from 'aphrodite';
+
+
+StyleSheetTestUtils.suppressStyleInjection();
+
+beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+});
+
+afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
 
 describe('WithLogging HOC', () => {
     it('logs correctly with pure HTML', () => {

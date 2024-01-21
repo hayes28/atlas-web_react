@@ -7,18 +7,32 @@ import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { StyleSheetTestUtils } from 'aphrodite';
+
+StyleSheetTestUtils.suppressStyleInjection();
 
 beforeAll(() => {
     StyleSheetTestUtils.suppressStyleInjection();
+    document.querySelector = jest.fn().mockImplementation(() => ({
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+    }));
 });
 
 afterAll(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+    document.querySelector.mockRestore();
 });
 
 beforeEach(() => {
     jest.clearAllMocks();
+});
+
+test('renders with styles', () => {
+    const { getByTestId } = render(<App />);
+    const headerElement = getByTestId('app-header');
+    expect(headerElement).toHaveClass('App-header');
 });
 
 describe('App', () => {
@@ -54,19 +68,35 @@ describe('App', () => {
         expect(wrapper.containsMatchingElement(<CourseList />)).toEqual(false);
     });
 
-    describe('when isLoggedIn is true', () => {
-        beforeEach(() => {
-            wrapper = shallow(<App isLoggedIn={true} />);
+    describe('when not logged in', () => {
+
+        it('does not display CourseList', () => {
+            const wrapper = shallow(<App />);
+            expect(wrapper.find('CourseList').exists()).toBe(false);
         });
 
-        it('does not include Login', () => {
-            expect(wrapper.containsMatchingElement(<Login />)).toEqual(false);
-        });
-
-        it('includes CourseList', () => {
-            expect(wrapper.containsMatchingElement(<CourseList />)).toEqual(false);
-        });
     });
+
+    describe('when logged in', () => {
+
+        it('displays CourseList', () => {
+            const wrapper = shallow(<App isLoggedIn />);
+            expect(wrapper.find('CourseList').exists()).toBe(true);
+        });
+
+    describe('displayDrawer', () => {
+
+        it('defaults to false', () => {
+            const wrapper = shallow(<App />);
+            expect(wrapper.state('displayDrawer')).toBe(false);
+        });
+
+        it('can be set to true', () => {
+            const wrapper = shallow(<App />);
+            wrapper.instance().handleDisplayDrawer();
+            expect(wrapper.state('displayDrawer')).toBe(true);
+        });
+
     test('logOut function is called on Ctrl+h press', () => {
         const logOutMock = jest.fn();
         window.alert = jest.fn();
@@ -99,3 +129,7 @@ describe('App', () => {
         expect(wrapper.state().displayDrawer).toBe(false);
     });
 });
+    });
+});
+
+

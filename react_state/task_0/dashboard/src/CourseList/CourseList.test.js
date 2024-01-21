@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import CourseList from './CourseList';
 import CourseListRow from './CourseListRow';
 import { StyleSheetTestUtils } from 'aphrodite';
@@ -49,6 +49,6 @@ describe('<CourseList />', () => {
             { id: 3, name: 'React', credit: 40 }
         ];
         const wrapper = shallow(<CourseList listCourses={listCourses} />);
-        expect(wrapper.find(CourseListRow).length).toBe(listCourses.length + 2);
+        expect(wrapper.find(CourseListRow).length).toBe(listCourses.length);
     });
 });

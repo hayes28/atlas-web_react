@@ -25,7 +25,9 @@ describe('Login', () => {
 
     it('renders Login text', () => {
         const wrapper = shallow(<Login />);
-        expect(wrapper.text().includes('Login')).toBe(true);
+        const paragraphText = wrapper.find('p').text();
+        console.log(paragraphText);
+        expect(paragraphText.includes('Login')).toBe(true);
     });
 
     it('renders 2 input tags', () => {

@@ -118,6 +118,7 @@ class Notifications extends React.Component {
     constructor(props) {
         super(props);
         this.markAsRead = this.markAsRead.bind(this);
+        this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
     };
     // Define the markAsRead method
     markAsRead = (id) => {
@@ -125,8 +126,13 @@ class Notifications extends React.Component {
     };
 
     shouldComponentUpdate(nextProps) {
-        return nextProps.listNotifications.length > this.props.listNotifications.length;
+        return nextProps.displayDrawer !== this.props.displayDrawer ||
+            nextProps.listNotifications.length !== this.props.listNotifications.length;
     }
+
+    componentDidUpdate() {
+        console.log('Component has updated');
+    };
 
     handleButtonClick = () => {
         console.log('Close button has been clicked');
@@ -138,36 +144,34 @@ class Notifications extends React.Component {
         return (
             <div id='notificationMenu' className={css(styles.notificationMenu)}>
                 {!displayDrawer && (
-                    <div className={css(styles.notifications, styles.bounceNote)}
-                    onClick={ handleDisplayDrawer }>
+                    <div className={`${css(styles.notifications, styles.bounceNote)} notification-trigger`} onClick={handleDisplayDrawer}>
                         Your notifications
                     </div>
                 )}
                 {displayDrawer && (
                     <>
                         <button
-                            className={css(styles.closeButton)}
+                            id='closeButton' className={css(styles.closeButton)}
                             aria-label="Close"
                             onClick={ handleHideDrawer }
                         >
                             <img src={closeIcon} alt="Close" style={{ height: '15px' }} />
                         </button>
-                        <div className={css(styles.menuItem)}>
+                        <div id='menuItem' className={css(styles.menuItem)}>
                             {listNotifications.length > 0 && <p className={css(styles.paragraph)}>Here is the list of notifications</p>}
                             <ul className={css(styles.list)}>
-                                {listNotifications.length === 0 ? (
-                                    <p>No new notification for now</p>
-                                ) : (
-                                    listNotifications.map(({ type, html, value, id }) => (
+                                {this.props.listNotifications.map((item) => {
+                                    return (
                                         <NotificationItem
-                                            key={id}
-                                            type={type}
-                                            html={html}
-                                            value={value}
                                             markAsRead={this.markAsRead}
+                                            key={item.id}
+                                            type={item.type}
+                                            value={item.value}
+                                            html={item.html}
+                                            id={item.id}
                                         />
-                                    ))
-                                )}
+                                    );
+                                })}
                             </ul>
                         </div>
                     </>
