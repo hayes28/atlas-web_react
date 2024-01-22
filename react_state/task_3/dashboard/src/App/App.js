@@ -46,7 +46,8 @@ class App extends React.Component {
     super(props);
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
-    // define default state
+    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+    // define default state including listNotifications
     this.state = {
       displayDrawer: false,
       user: {
@@ -54,6 +55,7 @@ class App extends React.Component {
         password: '',
         isLoggedIn: false,
       },
+      listNotifications: listNotifications,
     };
   }
 
@@ -89,8 +91,12 @@ class App extends React.Component {
     this.setState({ user: { email: '', password: '', isLoggedIn: false } });
   }
 
+  markNotificationAsRead = (id) => {
+    this.setState({ listNotifications: this.state.listNotifications.filter((notification) => notification.id !== id) });
+  }
+
   render() {
-    const { user, displayDrawer } = this.state;
+    const { user, displayDrawer, listNotifications } = this.state;
 
     return (
       <AppContext.Provider value={{ user, logOut: this.logOut, logIn: this.logIn }}>
@@ -99,7 +105,9 @@ class App extends React.Component {
             listNotifications={listNotifications}
             displayDrawer={displayDrawer}
             handleDisplayDrawer={this.handleDisplayDrawer}
-            handleHideDrawer={this.handleHideDrawer} />
+            handleHideDrawer={this.handleHideDrawer}
+            markNotificationAsRead={this.markNotificationAsRead}
+            />
           <div className={`App ${css(styles.app)}`}>
             <div className={`App-header ${css(styles.header)}`} data-testid="app-header">
               <Header />
