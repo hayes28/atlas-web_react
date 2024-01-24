@@ -5,7 +5,7 @@ import AppContext from '../App/AppContext';
 
 const styles = StyleSheet.create({
     appHeader: {
-        backgroundColor: '#fff',
+        backgroundColor: '#fefae8',
         borderBottom: '3px solid #00003c',
         display: 'flex',
         flexDirection: 'row',

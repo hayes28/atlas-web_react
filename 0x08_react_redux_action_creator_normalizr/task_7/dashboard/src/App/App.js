@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
 import Footer from '../Footer/Footer';
@@ -15,6 +14,7 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: "'Galano Grotesque Alt', sans-serif",
     borderBottom: '5px solid #00003C',
+    backgroundColor: '#fefae8',
   },
 
   body: {

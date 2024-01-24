@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     menuItem: {
         position: 'relative',
         border: 'thin dashed red',
+        backgroundColor: 'white',
         padding: '10px',
         width: '30%',
         textAlign: 'left',
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
         cursor: 'pointer',
         padding: '5px 20px',
         zIndex: 1,
+        fontSize: '20px',
         '@media screen and (max-width: 900px)': {
             position: 'absolute',
             top: 0,

@@ -1,33 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, css } from 'aphrodite';
-
-const styles = StyleSheet.create({
-    rowStyle: {
-        backgroundColor: '#f5f5f5ab'
-    },
-    headerStyle: {
-        backgroundColor: '#deb5b545',
-        textAlign: 'left'
-    },
-    thFirstCell: {
-        width: '40%'
-    },
-    thSecondCell: {
-        width: '60%'
-    },
-    tdFirstCell: {
-        width: '40%',
-        textAlign: 'left'
-    },
-    tdSecondCell: {
-        width: '60%',
-        textAlign: 'left'
-    },
-    rowChecked: {
-        backgroundColor: '#e6e4e4'
-    }
-});
+import './CourseSection.css';
 
 const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
     const [isChecked, setIsChecked] = useState(false);
@@ -49,7 +22,7 @@ const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
         if (textSecondCell === null) {
             return (
                 <tr>
-                    <th colSpan="2" className={css(styles.headerStyle)}>
+                    <th colSpan="2" className='headerStyle'>
                         {textFirstCell}
                     </th>
                 </tr>
@@ -57,15 +30,15 @@ const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
         }
         return (
             <tr className="column-headers">
-                <th className={css(styles.headerStyle)}>{textFirstCell}</th>
-                <th className={css(styles.headerStyle)}>{textSecondCell}</th>
+                <th className={`headerStyle thFirstCell`}>{textFirstCell}</th>
+                <th className={`headerStyle thSecondCell`}>{textSecondCell}</th>
             </tr>
         );
     }
 
     return (
-        <tr className={css(styles.rowStyle, isChecked && styles.rowChecked)}>
-            <td>
+        <tr className={`rowStyle ${isChecked ? 'rowChecked' : ''}`}>
+            <td className='tdFirstCell'>
                 <input
                     type="checkbox"
                     checked={isChecked}
@@ -73,7 +46,7 @@ const CourseListRow = ({ isHeader, textFirstCell, textSecondCell }) => {
                 />
                 {textFirstCell}
             </td>
-            <td>{textSecondCell}</td>
+            <td className='tdSecondCell'>{textSecondCell}</td>
         </tr>
     );
 };

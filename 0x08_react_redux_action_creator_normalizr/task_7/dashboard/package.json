@@ -35,7 +35,7 @@
     "jest-fetch-mock": "^3.0.3",
     "jsdom": "^23.2.0",
     "jsdom-global": "^3.0.2",
-    "node-fetch": "^3.3.2",
+    "node-fetch": "^2.7.0",
     "redux-mock-store": "^1.5.4",
     "style-loader": "^3.3.3",
     "webpack": "^5.89.0",
@@ -61,13 +61,12 @@
     "setupFilesAfterEnv": [
       "<rootDir>/config/setupTests.js"
     ],
-
     "transformIgnorePatterns": [
-    "node_modules/(?!(node-fetch|fetch-blob)/)"
+      "node_modules/(?!(node-fetch|fetch-blob)/)"
     ],
     "transform": {
-    "^.+\\.[t|j]sx?$": "babel-jest"
-  },
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    },
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "\\.(png|jpg|jpeg|gif|svg)$": "<rootDir>/__mocks__/fileMock.js"

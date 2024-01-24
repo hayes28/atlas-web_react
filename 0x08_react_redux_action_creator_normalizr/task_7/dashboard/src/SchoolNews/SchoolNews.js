@@ -7,8 +7,9 @@ const styles = StyleSheet.create({
     newsItem: {
         margin: '1rem 0',
         padding: '1rem',
-        border: '1px solid #ccc',
+        border: '2px solid #00003C',
         borderRadius: '5px',
+        backgroundColor: '#fefae8',
     },
 });
 

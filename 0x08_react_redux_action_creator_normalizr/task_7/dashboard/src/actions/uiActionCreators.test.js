@@ -1,14 +1,12 @@
 // uiActionCreators.test.js
 import { login, logout, loginRequest, displayNotificationDrawer, hideNotificationDrawer } from './uiActionCreators';
-import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER } from './uiActionTypes';
-import { LOGIN_SUCCESS, LOGIN_FAILURE } from './uiActionTypes';
+import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER, LOGIN_FAILURE, LOGIN_SUCCESS } from './uiActionTypes';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from "redux-thunk"
-import fetchMock from 'fetch-mock';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-
+const fetch = require('node-fetch');
 
 describe('async actions', () => {
     afterEach(() => {
@@ -16,7 +14,7 @@ describe('async actions', () => {
     });
 
     it('creates LOGIN_SUCCESS when login is successful', () => {
-        fetchMock.mockResponseOnce(JSON.stringify({}));
+        fetch.mockResponseOnce(JSON.stringify({}));
 
         const expectedActions = [
             { type: LOGIN, user: { email: '', password: '' } },
