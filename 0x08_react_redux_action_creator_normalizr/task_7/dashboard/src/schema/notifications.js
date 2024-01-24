@@ -1,4 +1,4 @@
-import * as notificationData from '../dist/notifications.json';
+import * as notificationData from '../../notifications.json';
 import { normalize, schema } from 'normalizr';
 
 // define the schema for the notification data
