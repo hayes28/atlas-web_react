@@ -3,10 +3,11 @@ import { login, logout, loginRequest, displayNotificationDrawer, hideNotificatio
 import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER, LOGIN_FAILURE, LOGIN_SUCCESS } from './uiActionTypes';
 import configureMockStore from 'redux-mock-store';
 import { thunk } from "redux-thunk"
+import fetchMock from 'jest-fetch-mock';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const fetch = require('node-fetch');
+fetchMock.enableMocks();
 
 describe('async actions', () => {
     afterEach(() => {

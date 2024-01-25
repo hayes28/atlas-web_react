@@ -64,6 +64,10 @@
     "transformIgnorePatterns": [
       "node_modules/(?!(node-fetch|fetch-blob)/)"
     ],
+    "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     },
