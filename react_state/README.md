@@ -9,7 +9,7 @@
 - [Forms and Controlled components](https://reactjs.org/docs/forms.html)
 - [Lifting State Up](https://reactjs.org/docs/lifting-state-up.html)
 - [React Hooks](https://reactjs.org/docs/hooks-intro.html)
-- [Enzyme State](https://enzymejs.github.io/enzyme/docs/api/ShallowWrapper/state.html)
+- [Enzyme State](https://enzymejs.github.io/enzyme/docs/api/ReactWrapper/state.html)
 - [Enzyme SetState](https://enzymejs.github.io/enzyme/docs/api/ShallowWrapper/setState.html)
 - [Enzyme Instance](https://enzymejs.github.io/enzyme/docs/api/ShallowWrapper/instance.html)
 - [Enzyme Simulate](https://enzymejs.github.io/enzyme/docs/api/ShallowWrapper/simulate.html)
