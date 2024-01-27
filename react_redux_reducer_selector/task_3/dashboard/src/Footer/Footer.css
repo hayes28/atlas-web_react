@@ -1,0 +1,21 @@
+/* #region FOOTER */
+
+.App-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 5px solid #00003C;
+    padding: 0.5rem 0;
+    background-color: #fefae8;
+}
+
+.App-footer p {
+    font-family: "Galano Grotesque Alt", sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    font-style: italic;
+    padding: 1rem 0;
+}
+
+/* #endregion */
