@@ -47,4 +47,3 @@ describe('uiReducer', () => {
         expect(newState.get('user').toJS()).toEqual({});
     });
 });
-
