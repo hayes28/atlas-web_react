@@ -196,3 +196,73 @@ This project focuses on mastering Redux for state management in React applicatio
 ## Testing:
 - Comprehensive test suites for each task, focusing on action creators, normalized data, and async actions.
 - Utilization of libraries like redux-mock-store and fetch-mock for simulating store behavior and API responses.
+
+
+### React Redux Reducer and Selector Project
+This project focuses on mastering React Redux reducers and selectors. The project builds upon the React course, introducing advanced state management concepts and techniques, including the use of Immutable.js and Normalizr.
+
+#### Resources:
+- **Reducers**
+- **Selectors**
+- **Writing Tests**
+- **Immutable Map Documentation**
+- **Normalizr**
+- **Normalizing State Shape**
+
+#### Learning Objectives:
+By the end of this project, you should be able to explain:
+- The purpose and role of a reducer within an application.
+- The importance of keeping a reducer pure.
+- Why mutations should not occur within a reducer.
+- The role of Immutable in a reducer.
+- The use of Normalizr within the app.
+- The concept of selectors and when to use them.
+
+### React Redux Connectors and Providers Project
+Integration of React with Redux, focusing on connectors, providers, middleware, and performance optimization using selectors.
+
+#### Key Features:
+- Redux connectors and providers.
+- Redux Thunk for asynchronous actions.
+- Reselect for memoized selectors.
+- Redux DevTools for state debugging.
+
+
+# React Redux Connectors and Providers Project
+
+This project focuses on the integration of React with Redux, emphasizing the use of connectors, providers, middleware, and the enhancement of performance using selectors. It serves as a practical guide to managing and debugging state in a React application with Redux.
+
+## Key Features
+- Implementation and understanding of Redux connectors and providers.
+- Usage of Redux Thunk for asynchronous actions.
+- Setup of the app's store with Redux Providers.
+- Performance enhancement using Reselect for memoized selectors.
+- Debugging of application state with Redux DevTools.
+
+## Objectives
+- Mastery in connecting components to Redux store using `mapStateToProps` and `mapDispatchToProps`.
+- Understanding of Redux middleware, especially Redux Thunk for asynchronous actions.
+- Configuring the Redux Provider and integrating it with the main App.
+- Utilizing Reselect to improve performance of selectors.
+- Familiarity with Redux DevTools for state debugging.
+
+## Requirements
+- Compatibility with `Ubuntu 18.04 LTS`, `node 12.x.x`, and `npm 6.x.x`.
+- Clean, simple, and well-commented code.
+- All functions must be exported.
+- `README.md` at the root of the project is mandatory.
+
+## Project Setup
+- Creation of a Redux store using `createStore`.
+- Implementation of Redux Provider to wrap the main App component.
+- Configuration of Redux Thunk and middleware for async operations.
+
+## Testing
+- Testing of `mapStateToProps` and action creators.
+- Usage of Immutable.js for managing the Redux store's state.
+- Ensuring all tests pass without any errors in the console.
+
+## Advanced Features
+- Usage of Redux Reselect for optimizing state mapping to props.
+- Implementation of async action creators for API interactions.
+- Utilization of the Redux DevTools extension for debugging.
