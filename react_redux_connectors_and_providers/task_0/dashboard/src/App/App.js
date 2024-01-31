@@ -43,7 +43,8 @@ const listNotifications = [
   { id: 3, type: 'urgent', html: { __html: '<strong>Urgent requirement</strong> - complete by EOD' } },
 ];
 
-class App extends React.Component {
+export class App extends React.Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
@@ -112,7 +113,7 @@ class App extends React.Component {
             handleHideDrawer={this.handleHideDrawer}
             markNotificationAsRead={this.markNotificationAsRead}
             />
-          <div className={`App ${css(styles.app)}`}>
+          <div className="App">
             <div className={`App-header ${css(styles.header)}`} data-testid="app-header">
               <Header />
             </div>
@@ -137,14 +138,9 @@ class App extends React.Component {
 }
 
 // mapStateToProps
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.uiReducer.isLoggedIn
-  };
-};
+export const mapStateToProps = (state) => ({
+  isLoggedIn: state && state.uiReducer && state.uiReducer.isUserLoggedIn,
+  displayDrawer: state && state.uiReducer && state.uiReducer.isNotificationDrawerVisible,
+});
 
-// Connect App component to redux store
-const ConnectedApp = connect(mapStateToProps)(App);
-export { App };
-
-export default ConnectedApp;
+connect(mapStateToProps)(App);
