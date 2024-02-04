@@ -1,7 +1,6 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { App, mapStateToProps } from './App';
-console.log(mapStateToProps); // This should log out the function if everything is correct.
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
@@ -58,21 +57,12 @@ describe('App component', () => {
     };
 
     beforeEach(() => {
-        wrapper = mount(
-            <Provider store={store}>
-                <App {...mockFunctions} />
-            </Provider>
-        );
-    });
-
-    it('...', () => {
-        const mockFunctions = {
-            displayNotificationDrawer: jest.fn(),
-            hideNotificationDrawer: jest.fn(),
-            logout: jest.fn(),
-            markAsRead: jest.fn(),
-        };
-
+        store = mockStore({
+            uiReducer: {
+                isNotificationDrawerVisible: false,
+                isUserLoggedIn: false,
+            }
+        });
         wrapper = mount(
             <Provider store={store}>
                 <App {...mockFunctions} />

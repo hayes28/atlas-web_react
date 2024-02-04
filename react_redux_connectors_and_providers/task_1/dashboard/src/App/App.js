@@ -135,25 +135,6 @@ export const mapStateToProps = (state = { uiReducer: Map() }) => {
   };
 };
 
-
-  // // Check if listNotifications is an Immutable.js List
-  // const listNotifications = state.uiReducer.get('listNotifications');
-  // if (!listNotifications || !(listNotifications instanceof List)) {
-  //   console.warn('listNotifications is not an Immutable.js List');
-  //   return {
-  //     isLoggedIn: state.uiReducer.get('isUserLoggedIn'),
-  //     displayDrawer: state.uiReducer.get('isNotificationDrawerVisible'),
-  //     listNotifications: [],
-  //   };
-  // }
-
-  // // Convert listNotifications to a regular JS array
-  // return {
-  //   isLoggedIn: state.uiReducer.get('isUserLoggedIn'),
-  //   displayDrawer: state.uiReducer.get('isNotificationDrawerVisible'),
-  //   listNotifications: listNotifications.toJS(),
-  // };
-
 export function mapDispatchToProps(dispatch) {
   console.log('mapDispatchToProps is being called');
   return {
