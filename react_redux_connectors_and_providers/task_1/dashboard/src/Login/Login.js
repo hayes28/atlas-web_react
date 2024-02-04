@@ -1,7 +1,7 @@
 import { StyleSheet, css } from 'aphrodite';
 import React from 'react';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
-import AppContext from '../App/AppContext';
+import PropsTypes from 'prop-types';
 
 const styles = StyleSheet.create({
     Login: {
@@ -51,8 +51,6 @@ const styles = StyleSheet.create({
 
 
 class Login extends React.Component {
-    static contextType = AppContext;
-
     constructor(props) {
         super(props);
         this.state = {
@@ -64,8 +62,8 @@ class Login extends React.Component {
 
     handleLoginSubmit = (e) => {
         e.preventDefault();
-        const { logIn } = this.context; // Destructure logIn from context
-        logIn(this.state.email, this.state.password); // Call logIn function from context
+        // Call the loginRequest action creator with email and password
+        this.props.onLogin(this.state.email, this.state.password);
     }
 
     handleEmailChange = (e) => {
@@ -127,6 +125,10 @@ class Login extends React.Component {
         );
     }
 }
+
+Login.propTypes = {
+    onLogin: PropsTypes.func.isRequired,
+};
 
 
 export default Login;
