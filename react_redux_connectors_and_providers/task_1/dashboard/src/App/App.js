@@ -9,7 +9,9 @@ import BodySection from '../BodySection/BodySection';
 import SchoolNews from '../SchoolNews/SchoolNews';
 import { StyleSheet, css } from 'aphrodite';
 import PropTypes from 'prop-types';
+import { Map, List } from 'immutable';
 import {
+  login,
   displayNotificationDrawer,
   hideNotificationDrawer,
   logout,
@@ -63,12 +65,15 @@ export class App extends React.Component {
     if (event.ctrlKey && event.key === 'h') {
       event.preventDefault();
       alert('Logging you out');
-      this.props.logOut;
+      this.props.logout();
     }
+    console.log('Props in App component:', this.props);
+    console.log('logout prop:', this.props.logout);
   }
 
 
   render() {
+    // console.log(this.props);
     const { isLoggedIn, displayDrawer, displayNotificationDrawer, hideNotificationDrawer } = this.props;
 
     return (
@@ -89,9 +94,8 @@ export class App extends React.Component {
               isLoggedIn ? (
                 <CourseList listCourses={listCourses} />
               ) : (
-                <Login />
-              )
-            }
+              <Login />
+              )}
             <BodySection title='News from the School'>
               <SchoolNews /> {/* Use SchoolNews component here */}
             </BodySection>
@@ -117,17 +121,48 @@ App.defaultProps = {
   displayDrawer: false,
 };
 
-const mapStateToProps = (state) => ({
-  isLoggedIn: state.uiReducer.get('isUserLoggedIn'),
-  displayDrawer: state.uiReducer.get('isNotificationDrawerVisible'),
-  listNotifications: state.uiReducer.get('listNotifications').toJS(),
-});
+export const mapStateToProps = (state = { uiReducer: Map() }) => {
+  const uiReducer = state.uiReducer || Map();
+  const isLoggedIn = uiReducer.get('isUserLoggedIn', false);
+  const displayDrawer = uiReducer.get('isNotificationDrawerVisible', false);
+  const listNotificationsImmutable = uiReducer.get('listNotifications', List());
+  const listNotifications = listNotificationsImmutable.toJS();
 
-const mapDispatchToProps = {
-  displayNotificationDrawer,
-  hideNotificationDrawer,
-  logout,
-  markAsRead,
+  return {
+    isLoggedIn,
+    displayDrawer,
+    listNotifications,
+  };
 };
+
+
+  // // Check if listNotifications is an Immutable.js List
+  // const listNotifications = state.uiReducer.get('listNotifications');
+  // if (!listNotifications || !(listNotifications instanceof List)) {
+  //   console.warn('listNotifications is not an Immutable.js List');
+  //   return {
+  //     isLoggedIn: state.uiReducer.get('isUserLoggedIn'),
+  //     displayDrawer: state.uiReducer.get('isNotificationDrawerVisible'),
+  //     listNotifications: [],
+  //   };
+  // }
+
+  // // Convert listNotifications to a regular JS array
+  // return {
+  //   isLoggedIn: state.uiReducer.get('isUserLoggedIn'),
+  //   displayDrawer: state.uiReducer.get('isNotificationDrawerVisible'),
+  //   listNotifications: listNotifications.toJS(),
+  // };
+
+export function mapDispatchToProps(dispatch) {
+  console.log('mapDispatchToProps is being called');
+  return {
+    displayNotificationDrawer: () => dispatch(displayNotificationDrawer()),
+    hideNotificationDrawer: () => dispatch(hideNotificationDrawer()),
+    logout: () => dispatch(logout()),
+    markAsRead: () => dispatch(markAsRead()),
+    login: (email, password) => dispatch(login(email, password)),
+  };
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

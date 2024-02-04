@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { App, mapStateToProps } from './App';
+console.log(mapStateToProps); // This should log out the function if everything is correct.
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
@@ -8,12 +9,10 @@ import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import '@testing-library/jest-dom';
 import { StyleSheetTestUtils } from 'aphrodite';
-import { fromJS } from 'immutable';
-import { Map } from 'immutable';
 import { act } from 'react-dom/test-utils'; // or '@testing-library/react'
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { List } from 'immutable';
+import { fromJS } from 'immutable';
 
 StyleSheetTestUtils.suppressStyleInjection();
 
@@ -131,14 +130,14 @@ describe('App component', () => {
 
     it('logOut function is called on Ctrl+h press', async () => {
         window.alert = jest.fn();
-        const mockLogOut = jest.fn();
+        const mockLogout = jest.fn();
 
         // You might need to mock the store state that reflects a logged-in user
         store = mockStore({ uiReducer: { isUserLoggedIn: true } });
 
         const wrapper = mount(
             <Provider store={store}>
-                <App logOut={mockLogOut} />
+                <App logout={mockLogout} />
             </Provider>
         );
 
@@ -149,7 +148,7 @@ describe('App component', () => {
             document.dispatchEvent(event);
         });
 
-        expect(mockLogOut).toHaveBeenCalled();
+        expect(mockLogout).toHaveBeenCalled();
         expect(window.alert).toHaveBeenCalledWith('Logging you out');
 
         window.alert.mockRestore();
@@ -188,22 +187,85 @@ describe('App component', () => {
 
     // test suite for mapStateToProps
     describe('mapStateToProps', () => {
-        it('should return the right object when isUserLoggedIn is true', () => {
+        // Happy path test with realistic test values
+        test('mapStateToProps - should map state to props correctly', () => {
+            // Arrange
+            const expectedProps = {
+                isLoggedIn: false,
+                displayDrawer: false,
+                listNotifications: []
+            };
             const state = {
-                uiReducer: ({
-                    isUserLoggedIn: true,
+                uiReducer: fromJS({
+                    isUserLoggedIn: false,
                     isNotificationDrawerVisible: false,
-                    listNotifications: ([]),
+                    listNotifications: []
                 })
             };
 
+            // Act
+            const props = mapStateToProps(state);
+
+            // Assert
+            expect(props).toEqual(expectedProps);
+        });
+
+        // Edge case test with different realistic test values
+        test('mapStateToProps - should handle different values for state properties', () => {
+            // Arrange
             const expectedProps = {
                 isLoggedIn: true,
-                displayDrawer: false,
-                listNotifications: [], // Assuming toJS() is called within mapStateToProps
+                displayDrawer: true,
+                listNotifications: [{ id: 1, text: 'Notification 1' }]
+            };
+            const state = {
+                uiReducer: fromJS({
+                    isUserLoggedIn: true,
+                    isNotificationDrawerVisible: true,
+                    listNotifications: [{ id: 1, text: 'Notification 1' }]
+                })
             };
 
-            expect(mapStateToProps(state)).toEqual(expectedProps);
+            // Act
+            const props = mapStateToProps(state);
+
+            // Assert
+            expect(props).toEqual(expectedProps);
+        });
+
+        // Error case test when properties are missing in the state
+        test('mapStateToProps - should handle missing properties in state', () => {
+            // Arrange
+            const expectedProps = {
+                isLoggedIn: false, // Default to false if missing
+                displayDrawer: false, // Default to false if missing
+                listNotifications: [] // Default to empty array if missing
+            };
+            const state = {
+                uiReducer: fromJS({}) // Empty Map
+            };
+
+            // Act
+            const props = mapStateToProps(state);
+
+            // Assert
+            expect(props).toEqual(expectedProps);
+        });
+
+        // Error case test when state is undefined
+        test('mapStateToProps - should handle undefined state', () => {
+            // Arrange
+            const expectedProps = {
+                isLoggedIn: false, // Default to false if state is undefined
+                displayDrawer: false, // Default to false if state is undefined
+                listNotifications: [] // Default to empty array if state is undefined
+            };
+
+            // Act
+            const props = mapStateToProps(undefined);
+
+            // Assert
+            expect(props).toEqual(expectedProps);
         });
     });
 });

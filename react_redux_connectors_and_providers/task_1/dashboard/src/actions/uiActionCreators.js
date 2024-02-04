@@ -15,9 +15,12 @@ export const login = (email, password) => ({
     user: { email, password }
 });
 
-export const logout = () => ({
-    type: LOGOUT,
-});
+export const logout = () => {
+    console.log('logout action creator called');
+    return {
+        type: LOGOUT,
+    };
+}
 
 export const displayNotificationDrawer = () => ({
     type: DISPLAY_NOTIFICATION_DRAWER,
