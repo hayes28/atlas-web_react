@@ -2,17 +2,19 @@
 import { LOGIN, LOGOUT, DISPLAY_NOTIFICATION_DRAWER, HIDE_NOTIFICATION_DRAWER, LOGIN_SUCCESS, LOGIN_FAILURE } from './uiActionTypes';
 
 // Action creators
-export const loginSuccess = () => ({
+export const loginSuccess = (user) => ({
     type: LOGIN_SUCCESS,
+    payload: user // Assuming 'user' is a serializable object with user details
 });
 
-export const loginFailure = () => ({
+export const loginFailure = (error) => ({
     type: LOGIN_FAILURE,
+    payload: { error } // Passing error information
 });
 
 export const login = (email, password) => ({
     type: LOGIN,
-    user: { email, password }
+    payload: { email, password } // Storing the credentials in a 'payload' property
 });
 
 export const logout = () => {
@@ -33,16 +35,25 @@ export const hideNotificationDrawer = () => ({
 // Async action creator for handling login
 export const loginRequest = (email, password) => {
     return async (dispatch) => {
-        dispatch(login(email, password));  // Dispatching the login action
+        dispatch(login(email, password)); // Dispatching the login action
         try {
-            const response = await fetch('/login-success.json'); // Simulating an API call
+            // Simulating an API call
+            const response = await fetch('http://localhost:3000/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
             if (response.ok) {
-                dispatch(loginSuccess()); // Dispatching login success action
+                const user = await response.json(); // Get the user data from the response
+                dispatch(loginSuccess(user)); // Dispatching login success action with the user data
             } else {
                 throw new Error('Login failed');
             }
         } catch (error) {
-            dispatch(loginFailure()); // Dispatching login failure action
+            dispatch(loginFailure(error.toString())); // Dispatching login failure action with the error message
         }
     };
 };

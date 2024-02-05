@@ -1,10 +1,9 @@
 import React from 'react';
 import { getFooterCopy, getFullYear } from "../utils/utils";
-import AppContext from '../App/AppContext';
 import './Footer.css';
+import { connect } from 'react-redux';
 
-function Footer() {
-    const { user } = React.useContext(AppContext);
+function Footer({ user }) { // Destructuring user from props here
     return (
         <footer className="App-footer">
             <p>
@@ -17,4 +16,10 @@ function Footer() {
     );
 }
 
-export default Footer;
+export const mapStateToProps = (state = { uiReducer: new Map() }) => {
+    const uiReducer = state.uiReducer || new Map();
+    const isLoggedIn = uiReducer.get('isUserLoggedIn', false);
+    return { user: { isLoggedIn } };
+}
+
+export default connect(mapStateToProps)(Footer);

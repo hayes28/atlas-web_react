@@ -2,6 +2,10 @@ import { StyleSheet, css } from 'aphrodite';
 import React from 'react';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import PropsTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { onLogin, loginRequest } from '../actions/uiActionCreators';
+import { Map } from 'immutable';
+import { bindActionCreators } from 'redux';
 
 const styles = StyleSheet.create({
     Login: {
@@ -130,5 +134,21 @@ Login.propTypes = {
     onLogin: PropsTypes.func,
 };
 
+Login.defaultProps = {
+    onLogin: () => {},
+};
 
-export default Login;
+const mapStateToProps = (state) => {
+    console.log(state);
+    const uiReducer = state.uiReducer || new Map();
+    const isLoggedIn = uiReducer.get('isUserLoggedIn', false);
+    return { isLoggedIn };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onLogin: (email, password) => dispatch(loginRequest(email, password)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

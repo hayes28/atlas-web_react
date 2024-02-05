@@ -122,8 +122,8 @@ App.defaultProps = {
   displayDrawer: false,
 };
 
-export const mapStateToProps = (state = { uiReducer: Map() }) => {
-  const uiReducer = state.uiReducer || Map();
+export const mapStateToProps = (state = { uiReducer: new Map() }) => {
+  const uiReducer = state.uiReducer || new Map();
   const isLoggedIn = uiReducer.get('isUserLoggedIn', false);
   const displayDrawer = uiReducer.get('isNotificationDrawerVisible', false);
   const listNotificationsImmutable = uiReducer.get('listNotifications', List());
