@@ -18,7 +18,7 @@ export const login = (email, password) => ({
 });
 
 export const logout = () => {
-    console.log('logout action creator called');
+    // console.log('logout action creator called');
     return {
         type: LOGOUT,
     };
@@ -38,12 +38,11 @@ export const loginRequest = (email, password) => {
         dispatch(login(email, password)); // Dispatching the login action
         try {
             // Simulating an API call
-            const response = await fetch('/users', {
-                method: 'POST',
+            const response = await fetch('/login-success.json', {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
