@@ -1,11 +1,11 @@
-import { StyleSheet, css } from 'aphrodite';
-import React from 'react';
-import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
-import PropsTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { onLogin, loginRequest } from '../actions/uiActionCreators';
-import { Map } from 'immutable';
-import { bindActionCreators } from 'redux';
+// Import necessary modules and components.
+import { StyleSheet, css } from 'aphrodite'; // Aphrodite for CSS in JS styling.
+import React from 'react'; // React library to define components.
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom'; // A component used as a wrapper with a bottom margin.
+import PropsTypes from 'prop-types'; // PropTypes for type-checking props.
+import { connect } from 'react-redux'; // Connect function to link component to the Redux store.
+import { loginRequest } from '../actions/uiActionCreators'; // Action creator for login requests.
+import { Map } from 'immutable'; // Immutable.js Map to handle immutable state in Redux.
 
 const styles = StyleSheet.create({
     Login: {
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
 export class Login extends React.Component {
     constructor(props) {
         super(props);
+        // Initialize state with email, password, and whether the submit button is enabled.
         this.state = {
             email: '',
             password: '',
@@ -64,20 +65,24 @@ export class Login extends React.Component {
         };
     }
 
+    // Handles the login form submission.
     handleLoginSubmit = (e) => {
         e.preventDefault();
-        // Call the loginRequest action creator with email and password
+        // Dispatches the loginRequest action with the email and password from state.
         this.props.onLogin(this.state.email, this.state.password);
     }
 
+    // Updates the email state when the email input changes.
     handleEmailChange = (e) => {
         this.setState({ email: e.target.value }, this.validateForm);
     }
 
+    // Updates the password state when the password input changes.
     handlePasswordChange = (e) => {
         this.setState({ password: e.target.value }, this.validateForm);
     }
 
+    // Validates the form and enables the submit button if both email and password are entered.
     validateForm = () => {
         const { email, password } = this.state;
         const enableSubmit = email.length > 0 && password.length > 0;
@@ -85,7 +90,7 @@ export class Login extends React.Component {
     }
 
     render() {
-        const { email, password, enableSubmit } = this.state;
+        const { email, password, enableSubmit } = this.state; // Destructuring for easier access to state.
         return (
             <>
                 <BodySectionWithMarginBottom title='Log in to continue'>
@@ -130,17 +135,19 @@ export class Login extends React.Component {
     }
 }
 
+// Define PropTypes for type checking.
 Login.propTypes = {
     onLogin: PropsTypes.func,
 };
 
+// Define default props in case they aren't passed to the component.
 Login.defaultProps = {
     onLogin: () => {},
 };
 
 const mapStateToProps = (state) => {
     console.log(state);
-    const uiReducer = state.uiReducer || new Map();
+    const uiReducer = state.ui || new Map();
     const isLoggedIn = uiReducer.get('isUserLoggedIn', false);
     return { isLoggedIn };
 };

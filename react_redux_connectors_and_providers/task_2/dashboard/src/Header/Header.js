@@ -1,7 +1,9 @@
+// Code: Header.js
 import React from 'react';
 import logo from '../assets/atlas_logo.png';
 import { StyleSheet, css } from 'aphrodite';
-import AppContext from '../App/AppContext';
+import { connect } from 'react-redux';
+import { logout } from '../actions/uiActionCreators';
 
 const styles = StyleSheet.create({
     appHeader: {
@@ -43,10 +45,9 @@ const styles = StyleSheet.create({
 });
 
 class Header extends React.Component {
-    static contextType = AppContext;
 
     render() {
-        const { user = { isLoggedIn: false, email: '' }, logOut = () => { } } = this.context;
+        const { user, logOut} = this.props;
         return (
             <div className={`header ${css(styles.appHeader)}`} >
                 <img src={logo} className={`logo ${css(styles.appLogo)}`} alt="logo" />
@@ -61,4 +62,17 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+
+    const uiReducer = state.ui;
+    const isLoggedIn = uiReducer.get('isUserLoggedIn');
+    const email = uiReducer.getIn(['user', 'email']);
+
+    return { user: { isLoggedIn, email } };
+};
+
+const mapDispatchToProps = {
+    logOut: logout,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

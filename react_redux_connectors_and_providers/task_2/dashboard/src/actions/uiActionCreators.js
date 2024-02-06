@@ -38,7 +38,7 @@ export const loginRequest = (email, password) => {
         dispatch(login(email, password)); // Dispatching the login action
         try {
             // Simulating an API call
-            const response = await fetch('http://localhost:3000/users', {
+            const response = await fetch('/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

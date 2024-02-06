@@ -123,7 +123,7 @@ App.defaultProps = {
 };
 
 export const mapStateToProps = (state = { uiReducer: new Map() }) => {
-  const uiReducer = state.uiReducer || new Map();
+  const uiReducer = state.ui || new Map();
   const isLoggedIn = uiReducer.get('isUserLoggedIn', false);
   const displayDrawer = uiReducer.get('isNotificationDrawerVisible', false);
   const listNotificationsImmutable = uiReducer.get('listNotifications', List());

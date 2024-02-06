@@ -16,10 +16,10 @@ function Footer({ user }) { // Destructuring user from props here
     );
 }
 
-export const mapStateToProps = (state = { uiReducer: new Map() }) => {
-    const uiReducer = state.uiReducer || new Map();
+export const mapStateToProps = (state) => {
+    const uiReducer = state.ui; // Getting uiReducer from state
     const isLoggedIn = uiReducer.get('isUserLoggedIn', false);
     return { user: { isLoggedIn } };
-}
+};
 
 export default connect(mapStateToProps)(Footer);

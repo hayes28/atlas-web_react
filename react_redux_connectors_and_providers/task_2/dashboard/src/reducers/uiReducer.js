@@ -3,40 +3,32 @@ import * as actionTypes from '../actions/uiActionTypes';
 import { Map } from 'immutable';
 
 // Define the Initial State
-// task 1 - convert the initial state to an immutable Map
 const initialState = new Map({
     isNotificationDrawerVisible: false,
     isUserLoggedIn: false,
-    user: new Map({}),
+    user: null, // Initialize user as null instead of an empty Map
 });
 
-// Define the Reducer
-// Using immutable Map in the reducer
 const uiReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.DISPLAY_NOTIFICATION_DRAWER:
             return state.set('isNotificationDrawerVisible', true);
         case actionTypes.HIDE_NOTIFICATION_DRAWER:
             return state.set('isNotificationDrawerVisible', false);
-        case actionTypes.LOGIN_SUCCESS:
-            // Ensure payload.user is converted to Map if it's not already
-            // Assuming payload is a plain object that contains user data
-            const userMap = new Map(action.payload);
+        case actionTypes.LOGIN:
+            // Set the user with the payload when LOGIN action is dispatched
             return state
                 .set('isUserLoggedIn', true)
-                .set('user', userMap);
-        case actionTypes.LOGIN_FAILURE:
-            // No need to change user info on login failure unless specific error info is required
-            return state.set('isUserLoggedIn', false);
+                .set('user', action.payload); // Assuming the payload contains the user object
         case actionTypes.LOGOUT:
-            // Reset user to initial empty Map on logout
+            // Reset the user to null when LOGOUT action is dispatched
             return state
                 .set('isUserLoggedIn', false)
-                .set('user', new Map({}));
+                .set('user', null);
+        // Handle other actions like LOGIN_SUCCESS, LOGIN_FAILURE as needed
         default:
             return state;
     }
 };
 
-// Export the Reducer
 export default uiReducer;
