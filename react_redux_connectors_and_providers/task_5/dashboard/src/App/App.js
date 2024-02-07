@@ -107,7 +107,6 @@ App.propTypes = {
   hideNotificationDrawer: PropTypes.func,
   logout: PropTypes.func,
   login: PropTypes.func,
-  markAsRead: PropTypes.func,
 };
 
 App.defaultProps = {

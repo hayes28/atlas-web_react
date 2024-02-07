@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
-import NotificationItemShape from './NotificationItemShape';
 
 const styles = StyleSheet.create({
     default: {
@@ -46,7 +45,6 @@ const NotificationItem = React.memo(({ type, html, value, markAsRead, id }) => {
 });
 
 NotificationItem.propTypes = {
-    ...NotificationItemShape.propTypes,
     markAsRead: PropTypes.func.isRequired,
 };
 

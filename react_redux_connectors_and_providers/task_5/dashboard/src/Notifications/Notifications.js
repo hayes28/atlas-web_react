@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
-import NotificationItemShape from './NotificationItemShape';
 import { connect } from 'react-redux';
 import { fetchNotifications } from '../actions/notificationActionCreators';
 
@@ -191,7 +190,6 @@ class Notifications extends React.Component {
 
 Notifications.propTypes = {
     displayDrawer: PropTypes.bool,
-    listNotifications: PropTypes.arrayOf(NotificationItemShape),
     handleDisplayDrawer: PropTypes.func,
     handleHideDrawer: PropTypes.func,
     markAsRead: PropTypes.func,
