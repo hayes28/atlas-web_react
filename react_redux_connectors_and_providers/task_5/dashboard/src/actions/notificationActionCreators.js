@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { notificationsNormalizer } from '../schema/notifications';
 
 // Action creator for markAsAread
-export const markAsRead = (index) => ({
+export const markAsRead = (id) => ({
     type: MARK_AS_READ,
-    index,
+    id,
 });
 
 export const setNotificationFilter = (filter) => ({
@@ -36,7 +36,7 @@ export const fetchNotifications = () => {
                 return response.json();
             })
             .then(data => {
-                console.log('Notifications data:', data); // Log the data to the console
+                // console.log('Notifications data:', data); // Log the data to the console
                 // Make sure data is not undefined before dispatching
                 if (data) {
                     const normalized = notificationsNormalizer(data);

@@ -4,7 +4,8 @@ import { StyleSheet, css } from 'aphrodite';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
 import { connect } from 'react-redux';
-import { fetchNotifications } from '../actions/notificationActionCreators';
+import { fetchNotifications, markAsRead } from '../actions/notificationActionCreators';
+import { getUnreadNotifications } from '../selectors/notificationSelector';
 
 const styles = StyleSheet.create({
     menuItem: {
@@ -126,8 +127,7 @@ class Notifications extends React.Component {
     };
     // Define the markAsRead method
     markAsRead = (id) => {
-        console.log(`Notification ${id} has been marked as read`);
-        console.log('markAsRead prop:', this.props.markAsRead);
+        this.props.markAsRead(id); // Dispatch the action instead of just logging
     };
 
     shouldComponentUpdate(nextProps) {
@@ -148,8 +148,7 @@ class Notifications extends React.Component {
     }
 
     render() {
-        // console.log('listNotifications prop:', this.props.listNotifications);
-        const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer, markAsRead } = this.props;
+        const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer } = this.props;
 
         return (
             <div id='notificationMenu' className={css(styles.notificationMenu)}>
@@ -168,7 +167,11 @@ class Notifications extends React.Component {
                             <img src={closeIcon} alt="Close" style={{ height: '15px' }} />
                         </button>
                         <div id='menuItem' className={css(styles.menuItem)}>
-                            {listNotifications.length > 0 && <p className={css(styles.paragraph)}>Here is the list of notifications</p>}
+                            {listNotifications.length > 0 ? (
+                                <p className={css(styles.paragraph)}>Here is the list of notifications</p>
+                            ) : (
+                                <p className={css(styles.paragraph)}>Loading notifications...</p>
+                            )}
                             <ul className={css(styles.list)}>
                                 {listNotifications.map((item) => (
                                     <NotificationItem
@@ -188,6 +191,7 @@ class Notifications extends React.Component {
     }
 }
 
+
 Notifications.propTypes = {
     displayDrawer: PropTypes.bool,
     handleDisplayDrawer: PropTypes.func,
@@ -202,26 +206,32 @@ Notifications.defaultProps = {
     handleHideDrawer: () => { },
 };
 
+
 const mapStateToProps = (state) => {
-    const notifications = state.notification.get('notifications');
-    const users = state.notification.get('users');
-    const messages = state.notification.get('messages');
+    console.log('Full State:', state); // This will show us the full state structure
+    const notificationState = state.notification;
+    console.log('notificationState:', notificationState); // Log the notification state
+    const notifications = notificationState.get('notifications');
+    console.log('Immutable notifications List:', notifications); // Log the Immutable List
+
+    // Convert the List to a JavaScript array and log it
+    const notificationsJS = notifications ? notifications.toJS() : [];
+    console.log('Plain JS notifications:', notificationsJS); // Should log an array
+
+    // Log the first item to see what it looks like
+    if (notificationsJS.length > 0) {
+        console.log('First notification item:', notificationsJS[0]);
+    }
 
     return {
-        listNotifications: notifications ? notifications.valueSeq().toArray().map(notification => ({
-            id: notification.get('id'),
-            type: messages.getIn([notification.get('context'), 'type']),
-            value: messages.getIn([notification.get('context'), 'value']),
-            html: messages.getIn([notification.get('context'), 'html']),
-            author: users.getIn([notification.get('author'), 'name']),
-        })) : [],
+        listNotifications: getUnreadNotifications(state),
     };
 };
-
 
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchNotifications: () => dispatch(fetchNotifications()),
+        markAsRead: (id) => dispatch(markAsRead(id)),
     };
 }
 

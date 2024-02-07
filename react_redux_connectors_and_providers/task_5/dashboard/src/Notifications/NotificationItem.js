@@ -45,7 +45,13 @@ const NotificationItem = React.memo(({ type, html, value, markAsRead, id }) => {
 });
 
 NotificationItem.propTypes = {
+    type: PropTypes.string,
+    value: PropTypes.string,
+    html: PropTypes.shape({
+        __html: PropTypes.string,
+    }),
     markAsRead: PropTypes.func.isRequired,
+    id: PropTypes.number.isRequired, // or PropTypes.string if the id is a string
 };
 
 NotificationItem.defaultProps = {
