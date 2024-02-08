@@ -131,7 +131,6 @@ const mapDispatchToProps = (dispatch) => {
     hideNotificationDrawer,
     logout,
     login: loginRequest,
-    // Assuming fetchNotifications is an action you have
     fetchNotifications,
   }, dispatch);
 }

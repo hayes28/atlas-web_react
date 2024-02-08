@@ -3,12 +3,12 @@ import { normalize, schema } from 'normalizr';
 
 // define the schema for the notification data
 const user = new schema.Entity('users');
-const message = new schema.Entity('messages', {}, {
+const message = new schema.Entity('values', {}, {
     idAttribute: 'guid'
 });
 export const notification = new schema.Entity('notifications', {
     author: user,
-    context: message
+    context: message,
 });
 
 export function getAllNotificationsByUser(userId) {

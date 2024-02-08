@@ -1,9 +1,9 @@
 // notificationSelector.js
 import { createSelector } from 'reselect';
-import { notification } from '../schema/notifications';
+import { notificationsNormalizer } from '../schema/notifications';
 
 export const getFilter = (state) => state.get('filter');
-export const getNotificationsMap = (state) => state.notification.notifications;
+export const getNotificationsMap = (state) => state.notification.get('notifications');
 
 
 export const filterTypeSelected = createSelector(
@@ -22,14 +22,12 @@ export const getUnreadNotifications = createSelector(
         if (!notificationsMap) {
             return [];
         }
-        return Object.values(notificationsMap)
-            .filter(notification => !notification.isRead)
+        return notificationsMap.valueSeq().toArray()
+            .filter(notification => !notification.get('isRead'))
             .map(notification => ({
-                id: notification.id,
-                type: notification.type,
-                value: notification.value,
-            }))
-            .valueSeq()
-            .toArray();
+                id: notification.getIn(['context', 'guid']),
+                type: notification.getIn(['context', 'type']),
+                value: notification.getIn(['context', 'value']),
+            }));
     }
 );

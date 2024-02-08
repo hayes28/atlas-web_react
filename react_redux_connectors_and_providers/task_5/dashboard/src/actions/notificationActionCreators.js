@@ -1,6 +1,5 @@
 // notificationActionCreators.js
 import { MARK_AS_READ, SET_TYPE_FILTER, FETCH_NOTIFICATIONS_SUCCESS, SET_LOADING_STATE } from './notificationActionTypes';
-import { useDispatch } from 'react-redux';
 import { notificationsNormalizer } from '../schema/notifications';
 
 // Action creator for markAsAread
@@ -27,7 +26,7 @@ export const setLoadingState = (isLoading) => ({
 // new action creator to fetch notifications
 export const fetchNotifications = () => {
     return (dispatch) => {
-        dispatch(setLoadingState(true)); // set loading state to true
+        dispatch(setLoadingState(true));
         fetch('/notifications.json')
             .then(response => {
                 if (!response.ok) {
@@ -36,20 +35,17 @@ export const fetchNotifications = () => {
                 return response.json();
             })
             .then(data => {
-                // console.log('Notifications data:', data); // Log the data to the console
-                // Make sure data is not undefined before dispatching
-                if (data) {
-                    const normalized = notificationsNormalizer(data);
-                    dispatch(setNotifications(normalized));
-                } else {
-                    throw new Error('No data received');
-                }
+                // Define the normalized variable by calling the normalizer function
+                const normalizedData = notificationsNormalizer(data);
+                console.log('Normalized Data:', normalizedData);
+                dispatch(setNotifications(normalizedData));
             })
             .catch(error => {
                 console.error('Error fetching notifications:', error);
             })
             .finally(() => {
-                dispatch(setLoadingState(false)); // set loading state to false
+                dispatch(setLoadingState(false));
             });
     };
 };
+

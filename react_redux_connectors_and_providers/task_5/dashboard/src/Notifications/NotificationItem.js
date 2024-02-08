@@ -1,3 +1,4 @@
+// NotificationItem.js
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
 });
 
 const NotificationItem = React.memo(({ type, html, value, markAsRead, id }) => {
+    console.log('NotificationItem props:', { id, type, value, html });
     const className = type === 'default' ? styles.default : styles.urgent;
 
     if (html) {
@@ -51,7 +53,7 @@ NotificationItem.propTypes = {
         __html: PropTypes.string,
     }),
     markAsRead: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired, // or PropTypes.string if the id is a string
+    id: PropTypes.string.isRequired, // Changed from number to string
 };
 
 NotificationItem.defaultProps = {

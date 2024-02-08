@@ -1,3 +1,4 @@
+// Notifications.js
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, css } from 'aphrodite';
@@ -148,7 +149,11 @@ class Notifications extends React.Component {
     }
 
     render() {
-        const { displayDrawer, listNotifications, handleDisplayDrawer, handleHideDrawer } = this.props;
+        const { displayDrawer, listNotifications, loading, handleDisplayDrawer, handleHideDrawer } = this.props;
+
+        // Check what props the component is receiving
+        console.log('listNotifications:', listNotifications, 'loading:', loading);
+        console.log('listNotifications in render:', this.props.listNotifications);
 
         return (
             <div id='notificationMenu' className={css(styles.notificationMenu)}>
@@ -167,19 +172,19 @@ class Notifications extends React.Component {
                             <img src={closeIcon} alt="Close" style={{ height: '15px' }} />
                         </button>
                         <div id='menuItem' className={css(styles.menuItem)}>
-                            {listNotifications.length > 0 ? (
+                            {!loading && listNotifications.length > 0 ? (
                                 <p className={css(styles.paragraph)}>Here is the list of notifications</p>
                             ) : (
-                                <p className={css(styles.paragraph)}>Loading notifications...</p>
+                                <p className={css(styles.paragraph)}>{loading ? 'Loading notifications...' : 'No notifications'}</p>
                             )}
                             <ul className={css(styles.list)}>
-                                {listNotifications.map((item) => (
+                                {listNotifications.map((item, index) => (
                                     <NotificationItem
-                                        key={item.id}
+                                        key={item.id || index} // Fallback to index if item.id is undefined
                                         type={item.type}
                                         value={item.value}
                                         html={item.html}
-                                        markAsRead={() => markAsRead(item.id)}
+                                        markAsRead={() => this.markAsRead(item.id)}
                                     />
                                 ))}
                             </ul>
@@ -208,23 +213,18 @@ Notifications.defaultProps = {
 
 
 const mapStateToProps = (state) => {
-    console.log('Full State:', state); // This will show us the full state structure
+    // console.log('Full State:', state); // This will show us the full state structure
     const notificationState = state.notification;
     console.log('notificationState:', notificationState); // Log the notification state
     const notifications = notificationState.get('notifications');
+    const loading = notificationState.get('loading');
     console.log('Immutable notifications List:', notifications); // Log the Immutable List
+    console.log('Loading state:', loading); // Log the loading state
 
-    // Convert the List to a JavaScript array and log it
-    const notificationsJS = notifications ? notifications.toJS() : [];
-    console.log('Plain JS notifications:', notificationsJS); // Should log an array
-
-    // Log the first item to see what it looks like
-    if (notificationsJS.length > 0) {
-        console.log('First notification item:', notificationsJS[0]);
-    }
-
+    console.log('Mapped State:', { listNotifications: getUnreadNotifications(state), loading });
     return {
         listNotifications: getUnreadNotifications(state),
+        loading, // Add this to pass the loading state to the component
     };
 };
 
