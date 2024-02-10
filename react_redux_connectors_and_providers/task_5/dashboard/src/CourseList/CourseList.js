@@ -1,12 +1,27 @@
-// CourseList.js
-import React from 'react';
 import PropTypes from 'prop-types';
-import CourseShape from './CourseShape';
 import './CourseSection.css';
 import CourseListRow from './CourseListRow';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchCourses, selectCourse, unSelectCourse } from '../actions/courseActionCreators';
+import { getAllCourses } from '../selectors/courseSelector';
 
-const CourseList = ({ listCourses = [], isLoggedIn }) => {
+const CourseList = ({ listCourses = [], isLoggedIn, fetchCourses, selectCourse, unSelectCourse }) => {
+    // Call fetchCourses when the component mounts
+    useEffect(() => {
+        fetchCourses();
+    }, [fetchCourses]);
+
+    // Define the onChangeRow function
+    const onChangeRow = (id, isChecked) => {
+        if (isChecked) {
+            selectCourse(id);
+        } else {
+            unSelectCourse(id);
+        }
+    };
+
     return (
         <BodySectionWithMarginBottom title='Course List'>
             <table id='CourseList' className={`table ${isLoggedIn ? 'loggedInStyle' : ''}`}>
@@ -32,6 +47,8 @@ const CourseList = ({ listCourses = [], isLoggedIn }) => {
                                 textSecondCell={String(course.credit)}
                                 isHeader={false}
                                 isLoggedIn={isLoggedIn}
+                                isChecked={course.isSelected} // Assuming you have an isSelected attribute
+                                onChangeRow={onChangeRow} // Pass onChangeRow to each CourseListRow
                             />
                         ))
                     )}
@@ -39,11 +56,30 @@ const CourseList = ({ listCourses = [], isLoggedIn }) => {
             </table>
         </BodySectionWithMarginBottom>
     );
-}
-
-CourseList.propTypes = {
-    listCourses: PropTypes.arrayOf(CourseShape),
 };
 
-export default CourseList;
+CourseList.propTypes = {
+    listCourses: PropTypes.array, // Updated to a simple array since CourseShape is removed
+    isLoggedIn: PropTypes.bool.isRequired,
+    fetchCourses: PropTypes.func.isRequired,
+    selectCourse: PropTypes.func.isRequired,
+    unSelectCourse: PropTypes.func.isRequired,
+};
 
+CourseList.defaultProps = {
+    listCourses: [],
+};
+
+const mapStateToProps = (state) => {
+    return {
+        listCourses: getAllCourses(state), // Use the getAllCourses selector
+    };
+};
+
+const mapDispatchToProps = {
+    fetchCourses,
+    selectCourse,
+    unSelectCourse,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseList);

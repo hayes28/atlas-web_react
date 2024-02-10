@@ -202,6 +202,11 @@ Notifications.propTypes = {
     handleDisplayDrawer: PropTypes.func,
     handleHideDrawer: PropTypes.func,
     markAsRead: PropTypes.func,
+    listNotifications: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number,
+        type: PropTypes.string,
+        value: PropTypes.string,
+    })),
 };
 
 Notifications.defaultProps = {
